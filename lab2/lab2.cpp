@@ -28,7 +28,7 @@ DWORD WINAPI ThreadProc(CONST LPVOID lpParam)
 void WriteHowTo()
 {
 	std::cout << "Example: "
-		<< "lab2.exe" << " "
+		<< "lw4.exe" << " "
 		<< "input.bmp" << " "
 		<< "output.bmp" << " "
 		<< "threadCount" << " "
@@ -53,8 +53,8 @@ int main(int argc, char* argv[])
 
 	BMPFILE blured = BMPFILE(bmp);
 
-	int threadsCount = 16;
-	int coreCount = 4;
+	int threadsCount = 3;
+	int coreCount = 3;
 	uint32_t width = (bmp.GetWidth() - 1) / threadsCount;
 	std::vector<int> priority;
 	for (int i = 0; i < threadsCount; i++)
@@ -65,6 +65,10 @@ int main(int argc, char* argv[])
 	std::vector<Params> paramsToThread;
 
 	int minWidth = 0;
+
+	//THREAD_PRIORITY_ABOVE_NORMAL THREAD_PRIORITY_BELOW_NORMAL THREAD_PRIORITY_HIGHEST THREAD_PRIORITY_IDLE THREAD_PRIORITY_LOWEST THREAD_PRIORITY_NORMAL THREAD_PRIORITY_TIME_CRITICAL
+
+	std::vector<int> prio = { THREAD_PRIORITY_BELOW_NORMAL, THREAD_PRIORITY_BELOW_NORMAL, THREAD_PRIORITY_BELOW_NORMAL };
 
 	for (int i = 0; i < threadsCount; i++)
 	{
@@ -86,6 +90,7 @@ int main(int argc, char* argv[])
 	{
 		handles[i] = CreateThread(NULL, i, &ThreadProc, &paramsToThread[i], CREATE_SUSPENDED, NULL);
 		SetThreadAffinityMask(handles[i], (1 << coreCount) - 1);
+		SetThreadPriority(handles[i], prio[i]);
 	}
 
 	for (int i = 0; i < threadsCount; i++)
