@@ -24,7 +24,7 @@ public:
 		count++;
 	}
 
-	int PopNode() {
+	int RemoveNode() {
 		Node* node = head;
 		int ret = node->x;
 		head = head->next;

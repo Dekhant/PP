@@ -8,7 +8,7 @@ class LogFileWriter {
 public:
 	void Log(List* list) {
 		while (list->CountNode() > 0) {
-			output << list->PopNode() << std::endl;
+			output << list->RemoveNode() << std::endl;
 		}
 	}
 

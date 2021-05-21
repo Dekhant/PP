@@ -309,7 +309,6 @@ int main(int argc, const char* argv[])
     SYSTEM_INFO SystemInfo;
     GetSystemInfo(&SystemInfo);
     unsigned int nMaxProcessorMask = (1 << SystemInfo.dwNumberOfProcessors) - 1;
-    // Set the max processor mask
     SetProcessAffinityMask(hProcess, nMaxProcessorMask);
 
     system("pause");
@@ -318,9 +317,6 @@ int main(int argc, const char* argv[])
     for (int i = 0; i < count; i++) {
         handles[i] = CreateThread(NULL, 0, &ThreadProc, &arrayBmp[i], CREATE_SUSPENDED, NULL);
     }
-    /*SetThreadPriority(handles[0], THREAD_PRIORITY_ABOVE_NORMAL);
-    SetThreadPriority(handles[1], THREAD_PRIORITY_NORMAL);
-    SetThreadPriority(handles[2], THREAD_PRIORITY_BELOW_NORMAL);*/
 
     for (int i = 0; i < count; i++) {
         ResumeThread(handles[i]);
